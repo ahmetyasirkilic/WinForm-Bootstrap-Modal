@@ -1,3 +1,4 @@
 # WinForm-Bootstrap-Modal
 Bootstrap modal redesigned for C#
-#### [![](https://cdn.monetizejs.com/resources/button-32.png)]
+
+![](https://github.com/ahmetyasirklc/WinForm-Bootstrap-Modal/blob/master/bootstrap-modal.jpg)
