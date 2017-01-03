@@ -11,16 +11,11 @@ using System.Windows.Forms;
 
 namespace FormBootstrapModal
 {
-    public partial class Form1 : RoundedForm
+    public partial class Form1 : ModalForm.ModalForm
     {
-        public Form1() : base("Modal title", "Hata oluştu. Lütfen daha sonra tekrar deneyiniz..")
+        public Form1() : base("Modal title", "One fine body...")
         {
             InitializeComponent();
-            
-        }
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
             
         }
     }

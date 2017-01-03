@@ -7,16 +7,17 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FormBootstrapModal;
 
-namespace FormBootstrapModal
+namespace ModalForm
 {
-    public class RoundedForm : Form
+    public class ModalForm : Form
     {
         #region DLL
         public const int WM_NCL_BUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
-        [DllImportAttribute("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImportAttribute("user32.dll")]
         public static extern bool ReleaseCapture();
@@ -38,9 +39,14 @@ namespace FormBootstrapModal
             }
         }
 
-        public RoundedForm(string title, string body)
+        public virtual int Width { get; private set; } = 500;
+        public virtual int Height { get; private set; } = 138;
+        public ModalForm()
         {
-            base.Size = new Size(500,138);
+            AddCloseButton();
+        }
+        public ModalForm(string title, string body)
+        {
             AddControls(title, body);
         }
         protected override void OnPaint(PaintEventArgs e)
@@ -54,7 +60,7 @@ namespace FormBootstrapModal
                 );
             gp.AddArc(
                 new Rectangle(this.Width - CORNER_ROUND, 0, CORNER_ROUND, CORNER_ROUND),
-                270, 
+                270,
                 90
                 );
 
@@ -62,12 +68,12 @@ namespace FormBootstrapModal
                 new Rectangle(0, CORNER_ROUND / 2, this.Width, this.Height - CORNER_ROUND)
                 );
 
-            gp.AddArc( 
+            gp.AddArc(
                 new Rectangle(0, this.Height - CORNER_ROUND, CORNER_ROUND, CORNER_ROUND),
                 -270,
                 90
                 );
-            gp.AddArc( 
+            gp.AddArc(
                 new Rectangle(this.Width - CORNER_ROUND, this.Height - CORNER_ROUND, CORNER_ROUND, CORNER_ROUND),
                 360,
                 90
@@ -82,20 +88,20 @@ namespace FormBootstrapModal
             SolidBrush lineBrush = new SolidBrush(LineColor);
             Pen pen = new Pen(lineBrush, 1f);
             g.DrawLine(
-                pen, new Point(0, Height / 3), 
+                pen, new Point(0, Height / 3),
                 new Point(Width, Height / 3)
                 );
             g.DrawLine(
                 pen, new Point(0, Height / 3 * 2),
                 new Point(Width, Height / 3 * 2)
-                ); 
+                );
             #endregion
 
             #region BorderStroke
             SolidBrush strokeBrush = new SolidBrush(StrokeColor);
             pen.Brush = strokeBrush;
             pen.Width = 4f;
-           
+
             g.DrawArc(pen, new Rectangle(0, 0, CORNER_ROUND, CORNER_ROUND), 180, 90);
             g.DrawArc(pen, new Rectangle(this.Width - CORNER_ROUND, 0, CORNER_ROUND, CORNER_ROUND), 270, 90);
 
@@ -113,16 +119,22 @@ namespace FormBootstrapModal
             ModalLabel titleLabel = new ModalLabel(ModalLabelType.Title, title);
             titleLabel.Location = new Point(10, Height / 12);
             ModalLabel bodyLabel = new ModalLabel(ModalLabelType.Body, body);
-            bodyLabel.Location = new Point(10, (int)(Height / 2.5)); 
+            bodyLabel.Location = new Point(10, (int)(Height / 2.5));
+
+            AddCloseButton();
+            Controls.Add(titleLabel);
+            Controls.Add(bodyLabel);
+        }
+
+        private void AddCloseButton()
+        {
             ModalLabel closeLabel = new ModalLabel(ModalLabelType.Title, "x");
             closeLabel.Location = new Point(Width - 30, (Height / 3) / 6);
-           
+
             closeLabel.Cursor = Cursors.Hand;
             closeLabel.Click += CloseLabel_Click;
 
             Controls.Add(closeLabel);
-            Controls.Add(titleLabel);
-            Controls.Add(bodyLabel);
         }
 
         private void CloseLabel_Click(object sender, EventArgs e)
