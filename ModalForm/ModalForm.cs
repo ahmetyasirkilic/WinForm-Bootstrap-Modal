@@ -132,14 +132,10 @@ namespace ModalForm
             closeLabel.Location = new Point(Width - 30, (Height / 3) / 6);
 
             closeLabel.Cursor = Cursors.Hand;
-            closeLabel.Click += CloseLabel_Click;
+            closeLabel.Click += (sender, e) => this.Close();
 
             Controls.Add(closeLabel);
         }
 
-        private void CloseLabel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

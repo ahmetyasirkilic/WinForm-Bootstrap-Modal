@@ -28,10 +28,15 @@ namespace FormBootstrapModal
         }
         public ModalLabel(ModalLabelType type, string text)
         {
-            if (type == ModalLabelType.Body)
-                base.Font = new Font(FONT_FAMILY, BODY_FONT_SIZE, BODY_FONT_STYLE);
-            else
-                base.Font = new Font(FONT_FAMILY, TITLE_FONT_SIZE, TITLE_FONT_STYLE);
+            switch (type)
+            {
+                case ModalLabelType.Body:
+                    base.Font = new Font(FONT_FAMILY, BODY_FONT_SIZE, BODY_FONT_STYLE);
+                    break;
+                case ModalLabelType.Title:
+                    base.Font = new Font(FONT_FAMILY, TITLE_FONT_SIZE, TITLE_FONT_STYLE);
+                    break;
+            }
 
             base.Text = text;
             base.AutoSize = true;
